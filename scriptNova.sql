@@ -1,11 +1,4 @@
--- Pharmacy Management System Database Schema
--- Tables, Procedures, and Triggers
 
--- ==========================================
--- TABLE CREATION
--- ==========================================
-
--- Create Doctor table
 CREATE TABLE Doctor (
     AadharID CHAR(12) PRIMARY KEY,
     Name VARCHAR(100),
@@ -13,7 +6,7 @@ CREATE TABLE Doctor (
     YearsOfExperience INT
 );
 
--- Create Patient table
+
 CREATE TABLE Patient (
     AadharID CHAR(12) PRIMARY KEY,
     Name VARCHAR(100),
@@ -23,13 +16,11 @@ CREATE TABLE Patient (
     FOREIGN KEY (PrimaryPhysician) REFERENCES Doctor(AadharID) ON DELETE CASCADE
 );
 
--- Create PharmaCompany table
 CREATE TABLE PharmaCompany (
     CompanyName VARCHAR(100) PRIMARY KEY,
     Phone VARCHAR(15)
 );
 
--- Create Drug table
 CREATE TABLE Drug (
     TradeName VARCHAR(100),
     CompanyName VARCHAR(100),
@@ -38,14 +29,12 @@ CREATE TABLE Drug (
     FOREIGN KEY (CompanyName) REFERENCES PharmaCompany(CompanyName) ON DELETE CASCADE
 );
 
--- Create Pharmacy table
 CREATE TABLE Pharmacy (
     PharmacyName VARCHAR(100) PRIMARY KEY,
     Address VARCHAR(255),
     Phone VARCHAR(15)
 );
 
--- Create Sales table
 CREATE TABLE Sales (
     PharmacyName VARCHAR(100),
     TradeName VARCHAR(100),
@@ -56,7 +45,6 @@ CREATE TABLE Sales (
     FOREIGN KEY (TradeName, CompanyName) REFERENCES Drug(TradeName, CompanyName) ON DELETE CASCADE
 );
 
--- Create Prescription table
 CREATE TABLE Prescription (
     PrescriptionID INT PRIMARY KEY,
     PatientID CHAR(12),
@@ -67,7 +55,6 @@ CREATE TABLE Prescription (
     FOREIGN KEY (DoctorID) REFERENCES Doctor(AadharID) ON DELETE CASCADE
 );
 
--- Create PrescriptionDrug table
 CREATE TABLE PrescriptionDrug (
     PrescriptionID INT,
     TradeName VARCHAR(100),
@@ -78,7 +65,6 @@ CREATE TABLE PrescriptionDrug (
     FOREIGN KEY (TradeName, CompanyName) REFERENCES Drug(TradeName, CompanyName) ON DELETE CASCADE
 );
 
--- Create Contract table
 CREATE TABLE Contract (
     ContractID INT PRIMARY KEY,
     PharmacyName VARCHAR(100),
@@ -91,11 +77,7 @@ CREATE TABLE Contract (
     FOREIGN KEY (CompanyName) REFERENCES PharmaCompany(CompanyName) ON DELETE CASCADE
 );
 
--- ==========================================
--- INSERT PROCEDURES
--- ==========================================
 
--- Insert Pharmacy procedure
 CREATE OR REPLACE PROCEDURE Insert_Pharmacy(
     p_name IN VARCHAR,
     p_address IN VARCHAR,
@@ -107,7 +89,6 @@ BEGIN
 END;
 /
 
--- Insert PharmaCompany procedure
 CREATE OR REPLACE PROCEDURE Insert_PharmaCompany(
     c_name IN VARCHAR,
     c_phone IN VARCHAR
@@ -118,7 +99,6 @@ BEGIN
 END;
 /
 
--- Insert Doctor procedure
 CREATE OR REPLACE PROCEDURE Insert_Doctor(
     d_aadhar IN CHAR,
     d_name IN VARCHAR,
@@ -131,7 +111,6 @@ BEGIN
 END;
 /
 
--- Insert Patient procedure
 CREATE OR REPLACE PROCEDURE Insert_Patient(
     p_aadhar IN CHAR,
     p_name IN VARCHAR,
@@ -145,7 +124,6 @@ BEGIN
 END;
 /
 
--- Insert Drug procedure
 CREATE OR REPLACE PROCEDURE Insert_Drug(
     t_name IN VARCHAR,
     c_name IN VARCHAR,
@@ -157,7 +135,6 @@ BEGIN
 END;
 /
 
--- Insert Prescription procedure
 CREATE OR REPLACE PROCEDURE Insert_Prescription(
     p_id IN INT,
     patient_id IN CHAR,
@@ -170,7 +147,6 @@ BEGIN
 END;
 /
 
--- Insert Contract procedure
 CREATE OR REPLACE PROCEDURE Insert_Contract(
     con_id IN INT,
     pharmacy_name IN VARCHAR,
@@ -186,7 +162,6 @@ BEGIN
 END;
 /
 
--- Insert Sales procedure
 CREATE OR REPLACE PROCEDURE Insert_Sales(
     pharmacy_name IN VARCHAR,
     trade_name IN VARCHAR,
@@ -199,7 +174,6 @@ BEGIN
 END;
 /
 
--- Insert PrescriptionDrug procedure
 CREATE OR REPLACE PROCEDURE Insert_PrescriptionDrug(
     presc_id IN INT,
     trade_name IN VARCHAR,
@@ -212,11 +186,6 @@ BEGIN
 END;
 /
 
--- ==========================================
--- DELETE PROCEDURES
--- ==========================================
-
--- Delete Pharmacy procedure
 CREATE OR REPLACE PROCEDURE Delete_Pharmacy(
     p_name IN VARCHAR
 ) AS
@@ -225,7 +194,6 @@ BEGIN
 END;
 /
 
--- Delete PharmaCompany procedure
 CREATE OR REPLACE PROCEDURE Delete_PharmaCompany(
     c_name IN VARCHAR
 ) AS
@@ -234,7 +202,6 @@ BEGIN
 END;
 /
 
--- Delete Doctor procedure
 CREATE OR REPLACE PROCEDURE Delete_Doctor(
     d_aadhar IN CHAR
 ) AS
@@ -243,7 +210,6 @@ BEGIN
 END;
 /
 
--- Delete Patient procedure
 CREATE OR REPLACE PROCEDURE Delete_Patient(
     p_aadhar IN CHAR
 ) AS
@@ -252,7 +218,6 @@ BEGIN
 END;
 /
 
--- Delete Drug procedure
 CREATE OR REPLACE PROCEDURE Delete_Drug(
     t_name IN VARCHAR,
     c_name IN VARCHAR
@@ -262,7 +227,6 @@ BEGIN
 END;
 /
 
--- Delete Sales procedure
 CREATE OR REPLACE PROCEDURE Delete_Sales(
     p_name IN VARCHAR,
     t_name IN VARCHAR,
@@ -274,7 +238,6 @@ BEGIN
 END;
 /
 
--- Delete Prescription procedure
 CREATE OR REPLACE PROCEDURE Delete_Prescription(
     p_id IN INT
 ) AS
@@ -283,7 +246,6 @@ BEGIN
 END;
 /
 
--- Delete PrescriptionDrug procedure
 CREATE OR REPLACE PROCEDURE Delete_PrescriptionDrug(
     p_id IN INT,
     t_name IN VARCHAR,
@@ -295,7 +257,6 @@ BEGIN
 END;
 /
 
--- Delete Contract procedure
 CREATE OR REPLACE PROCEDURE Delete_Contract(
     c_id IN INT
 ) AS
@@ -304,11 +265,7 @@ BEGIN
 END;
 /
 
--- ==========================================
--- UPDATE PROCEDURES
--- ==========================================
 
--- Update Patient Address procedure
 CREATE OR REPLACE PROCEDURE Update_Patient_Address(
     p_aadhar IN CHAR,
     new_address IN VARCHAR
@@ -320,7 +277,6 @@ BEGIN
 END;
 /
 
--- Update Pharmacy Phone procedure
 CREATE OR REPLACE PROCEDURE Update_Pharmacy_Phone(
     p_name IN VARCHAR,
     new_phone IN VARCHAR
@@ -332,7 +288,6 @@ BEGIN
 END;
 /
 
--- Update Contract Supervisor procedure
 CREATE OR REPLACE PROCEDURE Update_Contract_Supervisor(
     contract_id IN INT,
     new_supervisor IN VARCHAR
@@ -344,11 +299,6 @@ BEGIN
 END;
 /
 
--- ==========================================
--- REPORT PROCEDURES
--- ==========================================
-
--- Prescription Report procedure
 CREATE OR REPLACE PROCEDURE Prescription_Report(
     p_aadhar IN CHAR,
     start_date IN DATE,
@@ -386,7 +336,6 @@ BEGIN
 END;
 /
 
--- Prescription Details By Date procedure
 CREATE OR REPLACE PROCEDURE Prescription_Details_By_Date(
     p_aadhar IN CHAR,
     presc_date IN DATE
@@ -421,7 +370,6 @@ BEGIN
 END;
 /
 
--- Get Drugs By Company procedure
 CREATE OR REPLACE PROCEDURE Get_Drugs_By_Company(
     comp_name IN VARCHAR
 ) AS
@@ -436,7 +384,6 @@ BEGIN
 END;
 /
 
--- Print Stock Position procedure
 CREATE OR REPLACE PROCEDURE Print_Stock_Position(
     p_name IN VARCHAR
 ) AS
@@ -464,7 +411,6 @@ BEGIN
 END;
 /
 
--- Print Contract Details procedure
 CREATE OR REPLACE PROCEDURE Print_Contract_Details(
     p_name IN VARCHAR,
     c_name IN VARCHAR
@@ -492,7 +438,6 @@ BEGIN
 END;
 /
 
--- Print Patients For Doctor procedure
 CREATE OR REPLACE PROCEDURE Print_Patients_For_Doctor(
     d_aadhar IN CHAR
 ) AS
@@ -519,11 +464,6 @@ BEGIN
 END;
 /
 
--- ==========================================
--- TRIGGERS
--- ==========================================
-
--- Trigger to ensure minimum stock
 CREATE OR REPLACE TRIGGER Ensure_Minimum_Stock
 BEFORE DELETE ON Sales
 FOR EACH ROW
